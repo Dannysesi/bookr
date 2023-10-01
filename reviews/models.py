@@ -47,3 +47,14 @@ class Review(models.Model):
     date_edited = models.DateTimeField(null=True, help_text='the date and time the review was last edited')
     creator = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, help_text='the book that this review is for')
+
+class Genre(models.Model):
+    class GenreType(models.TextChoices):
+        Horror = 'HORROR', 'horror'
+        Comedy = 'COMEDY', 'comedy'
+        Romance = 'ROMANCE', 'romance'
+        Action = 'ACTION', 'action'
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    genre = models.CharField(verbose_name='the genre of this book', choices=GenreType.choices, max_length=20)
+
