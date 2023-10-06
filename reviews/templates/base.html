@@ -1,56 +1,112 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>Book Review</title>
-    <style type="text/css">
-      .navbar {
-        margin: 20px;
-        min-height: 70px;
-        font-size: 25px;
-      }
-      .navbar-brand {
-        font-size: 25px;
-      }
-    </style>
-  </head>
-  <body>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-          <a class="navbar-brand" href="/">Book Review</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="/books/">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
-              </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-          </div>
-        </nav>
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-          {% endfor %}
+  <title>Book Review</title>
+  <style type="text/css">
+    .navbar {
+      margin: 20px;
+      min-height: 70px;
+      font-size: 25px;
+    }
+    .navbar-brand {
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .navbar-dark .navbar-toggler-icon {
+      background-color: #fff;
+    }
+    .nav-link {
+      font-size: 18px;
+    }
+    .search-container {
+      display: flex;
+      align-items: center;
+    }
+    .search-input {
+      width: 250px;
+      margin-right: 10px;
+    }
+    .search-btn {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: #fff;
+    }
+    .search-btn:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+    h1 {
+      font-size: 40px;
+      color: #333;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+    }
+    .alert {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .page-footer {
+      background-color: #f8f9fa;
+      color: #333;
+      font-size: 14px;
+    }
+    .page-footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="/" style="font-family: cursive;">Book Review</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto" style="font-size: 15px; font-family: cursive;">
+        <li class="nav-item active">
+          <a class="nav-link" href="/books/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
         {% endif %}
-         {% block content %}
-        <h1 style="margin: 20px; font-family: cursive;"><b>Welcome to Bookr!</b></h1>
-        {% endblock %}
+      </ul>
+      <div class="search-container">
+        <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </div>
+    </div>
+  </nav>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+  {% endif %}
+  {% block content %}
+  <h1 style="margin: 20px; font-family: cursive;"><b>Welcome to Bookr!</b></h1>
+  {% endblock %}
+
   <!-- Copyright -->
   <footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">&copy; 2023 Copyright:
@@ -60,5 +116,8 @@
     </div>
   </footer>
   <!-- Copyright -->
-  </body>
+  <script>
+    // You can add your JavaScript here
+  </script>
+</body>
 </html>
