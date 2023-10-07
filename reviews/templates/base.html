@@ -66,7 +66,7 @@
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top" style="border-radius: 10px;">
     <a class="navbar-brand" href="/" style="font-family: cursive;">Book Review</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -104,7 +104,7 @@
   {% endfor %}
   {% endif %}
   {% block content %}
-  <h1 style="margin: 20px; font-family: cursive;"><b>Welcome to Bookr!</b></h1>
+  <h1 style="margin: 20px; font-family: cursive;"><b>Welcome to {{ user.username }}</b></h1>
   {% endblock %}
 
   <!-- Copyright -->
