@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section" style="max-width: 500px; margin: auto; padding: 2cm; border-radius: 10px; background-color:  #343a40; color: #fff;">
+        <form id="loginForm" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4" style="font-size: 1.5em; font-weight: bold; color: #fff;">Log In</legend>
+                <div class="form-group">
+                    <label for="email" style="color: #fff;">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    <label for="password1" style="color: #fff;">Password</label>
+                    {{ form.password }}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" style="background-color: #fff; color: #0d3d0e; border: none; padding: 10px 20px; border-radius: 5px;">Login</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">Need an Account? <a href="{% url 'register' %}" class="ml-2" style="color: #fff;">Sign Up Now</a></small>
+        </div>
+    </div>
+{% endblock content %}
