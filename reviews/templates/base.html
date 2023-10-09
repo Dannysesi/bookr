@@ -104,7 +104,11 @@
   {% endfor %}
   {% endif %}
   {% block content %}
-  <h1 style="margin: 20px; font-family: cursive;"><b>Welcome to {{ user.username }}</b></h1>
+  {% if user.is_authenticated %}
+  <h1 style="margin: 20px; font-family: cursive;"><b>Welcome {{ user.username }}</b></h1>
+  {% else %}
+  <h1 style="margin: 20px; font-family: cursive;"><b>Welcome to Bookr</b></h1>
+  {% endif %}
   {% endblock %}
 
   <!-- Copyright -->
