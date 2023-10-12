@@ -25,13 +25,16 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', reviews.views.index, name='reviews-home'),
+    path('', reviews.views.base, name='reviews-home'),
+    path('book_list/', reviews.views.book_list, name='book_list'),
     path('register/', users_views.register, name='register'),
     path('profile/', users_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('search/', reviews.views.search_view, name='search_view'),
     path('', include('reviews.urls')),
+    path('books/<int:book_id>/submit_review/', reviews.views.submit_review, name='submit_review'),
+    path('books/genre/<str:genre_type>/', reviews.views.books_by_genre, name='books_by_genre'),
 ] 
 
 if settings.DEBUG:
