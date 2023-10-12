@@ -72,7 +72,7 @@
     </style>
 </head>
 <body>
-    <h3><a href="{% url 'reviews-home' %}">HOME</a></h3>
+    <h3><a href="{% url 'book_list' %}">HOME</a></h3>
     <h1>{{ book.title }}</h1>
     <p>Author: {{ book.publisher.name }}</p>
     <p>Genres:
@@ -80,6 +80,7 @@
             {{ genre.genre }}
         {% endfor %}
     </p>
+    <p>Contributor: {{ book.contributors.get }}</p>
     <p>Publication Date: {{ book.publication_date }}</p>
     <p>ISBN: {{ book.isbn }}</p>
     <h2>Reviews:</h2>
