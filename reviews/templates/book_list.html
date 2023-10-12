@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="dropdown" style="margin-left: 20px; margin-bottom: 10px;">
+  <button class="btn btn-secondary" id="genreDropdown">Genre</button>
+  <div class="dropdown-menu" id="genreMenu">
+    {% for genre in genres %}
+      <a class="dropdown-item" href="{% url 'books_by_genre' genre.genre %}">{{ genre.get_genre_display }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.getElementById("genreDropdown").addEventListener("click", function() {
+    document.getElementById("genreMenu").classList.toggle("show");
+  });
+
+  window.onclick = function(event) {
+    if (!event.target.matches('.btn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-menu");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
+
 <ul class="list-group">
-  {% for item in book %}
+  {% for item in books %}
   <li class="list-group-item">
-      <span class="text-info">Title: </span> <span>{{ item.title }}</span>
-      <br>
-      <span class="text-info">Publisher: </span><span>{{ item.publisher }}</span>
-      <br>
-      <span class="text-info">Publication Date: </span><span>{{ item.publication_date }}</span>
-      <br>
-      <span class="text-info">Rating: </span><span class="badge badge-primary badge-pill">{{ item.book_rating }}</span>
-      <br>
-      <span class="text-info">Number of reviews: </span><span>{{ item.reviews }}</span>
-      <br>
-      {% if item.book_rating is null %}
-      <span class="text-secondary">Provide a rating and write the first review for this book.</span>
-      <br>
-      {% endif %}
-      
+      <a href="{% url 'book_detail' item.id %}">{{ item.title|capfirst }}</a>
   </li>
   {% endfor %}
 </ul>

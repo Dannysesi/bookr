@@ -1,38 +1,110 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ book.title }} - Book Details</title>
+    <style>
+        /* style.css */
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f8f8;
+    }
 
-{% block content %}
-      <br>
-      <h3>Book Details</h3>
-      <hr>
-      <span class="text-info">Title: </span> <span>{{ book.title }}</span>
-      <br>
-      <span class="text-info">Publisher: </span><span>{{ book.publisher }}</span>
-      <br>
-      <span class="text-info">Publication Date: </span><span>{{ book.publication_date }}</span>
-      <br>
-      {% if not reviews %}
-            <hr>
-            <h3>Be the first one to write a review.</h3>
-      {% else %}
-            <span class="text-info">Overall Rating: </span><span class="badge badge-primary badge-pill">{{ book_rating }}</span>
-            <br>
-            <hr>
-            <h3>Review Comments</h3>
-            <ul>
-            {% for review in reviews %}
-                  <li class="list-group-item">
-                        <span class="text-info">Review comment: </span> <span>{{ review.content }}</span>
-                        <br>
-                        <span class="text-info">Created on: </span><span>{{ review.date_created }}</span>
-                        <br>
-                        <span class="text-info">Modified on: </span><span>{{ review.date_edited }}</span>
-                        <br>
-                        <span class="text-info">Rating: </span><span class="badge badge-secondary badge-pill">{{ review.rating }}</span>
-                        <br>
-                        <span class="text-info">Creator: </span><span>{{ review.creator.username }}</span>
-                        <br>
-                  </li>
-            {% endfor %}
-            </ul>
-      {% endif %}
-{% endblock %}
+    h1, h2 {
+        color: #333;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul li {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #fff;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    label, input, textarea {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    </style>
+</head>
+<body>
+    <h3><a href="{% url 'reviews-home' %}">HOME</a></h3>
+    <h1>{{ book.title }}</h1>
+    <p>Author: {{ book.publisher.name }}</p>
+    <p>Genres:
+        {% for genre in book.genre_set.all %}
+            {{ genre.genre }}
+        {% endfor %}
+    </p>
+    <p>Publication Date: {{ book.publication_date }}</p>
+    <p>ISBN: {{ book.isbn }}</p>
+    <h2>Reviews:</h2>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                Rating: {{ review.rating }}<br>
+                Comment: {{ review.comment }}<br>
+                Posted by: {{ review.user.username }}<br>
+                Date Posted: {{ review.date_posted }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if user.is_authenticated %}
+        <h2>Submit a Review</h2>
+        <form method="post" action="{% url 'submit_review' book.id %}">
+            {% csrf_token %}
+            <label for="rating">Rating:</label>
+            <input type="number" name="rating" min="1" max="5" required><br>
+            <label for="comment">Comment:</label><br>
+            <textarea name="comment" required></textarea><br>
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}?next=/book_detail/{{ book.id }} ">Log in</a> to submit a review.</p>
+    {% endif %}
+</body>
+</html>
