@@ -58,3 +58,6 @@ class Genre(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     genre = models.CharField(verbose_name='the genre of this book', choices=GenreType.choices, max_length=20)
 
+
+
+
