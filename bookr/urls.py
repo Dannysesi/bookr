@@ -31,7 +31,7 @@ urlpatterns = [
     path('profile/', users_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
-    path('search/', reviews.views.search_view, name='search_view'),
+    path('search/', reviews.views.book_search, name='book_search'),
     path('', include('reviews.urls')),
     path('books/<int:book_id>/submit_review/', reviews.views.submit_review, name='submit_review'),
     path('books/genre/<str:genre_type>/', reviews.views.books_by_genre, name='books_by_genre'),
