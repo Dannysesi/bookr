@@ -72,40 +72,42 @@
     </style>
 </head>
 <body>
-    <h3><a href="{% url 'book_list' %}">Back</a></h3>
-    <h1>{{ book.title }}</h1>
-    <p>Author: {{ book.publisher.name }}</p>
-    <p>Genres:
-        {% for genre in book.genre_set.all %}
-            {{ genre.genre }}
-        {% endfor %}
-    </p>
-    <p>Contributor: {{ book.contributors.get|capfirst }}</p>
-    <p>Publication Date: {{ book.publication_date }}</p>
-    <p>ISBN: {{ book.isbn }}</p>
-    <h2>Reviews:</h2>
-    <ul>
-        {% for review in reviews %}
-            <li>
-                Rating: {{ review.rating }}<br>
-                Comment: {{ review.comment }}<br>
-                Posted by: {{ review.user.username }}<br>
-                Date Posted: {{ review.date_posted }}
-            </li>
-        {% endfor %}
-    </ul>
-    {% if user.is_authenticated %}
-        <h2>Submit a Review</h2>
-        <form method="post" action="{% url 'submit_review' book.id %}">
-            {% csrf_token %}
-            <label for="rating">Rating:</label>
-            <input type="number" name="rating" min="1" max="5" required><br>
-            <label for="comment">Comment:</label><br>
-            <textarea name="comment" required></textarea><br>
-            <input type="submit" value="Submit">
-        </form>
-    {% else %}
-        <p><a href="{% url 'login' %}?next=/book_detail/{{ book.id }} ">Log in</a> to submit a review.</p>
-    {% endif %}
+    <div style="background-color: #b7e2a0ca; padding: 30px; border-radius: 20px;">
+        <h3><a href="{% url 'book_list' %}">Back</a></h3>
+        <h1>{{ book.title|capfirst }}</h1>
+        <p>Author: {{ book.publisher.name }}</p>
+        <p>Genres:
+            {% for genre in book.genre_set.all %}
+                {{ genre.genre }}
+            {% endfor %}
+        </p>
+        <p>Contributor: {{ book.contributors.get|capfirst }}</p>
+        <p>Publication Date: {{ book.publication_date }}</p>
+        <p>ISBN: {{ book.isbn }}</p>
+        <h2>Reviews:</h2>
+        <ul>
+            {% for review in reviews|slice:":3" %}
+                <li>
+                    Rating: {{ review.rating|capfirst }}<br>
+                    Comment: {{ review.content|capfirst }}<br>
+                    Posted by: {{ review.creator.username|capfirst }}<br>
+                    Date Posted: {{ review.date_created|capfirst }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated %}
+            <h2>Submit a Review</h2>
+            <form method="post" action="{% url 'submit_review' book.id %}">
+                {% csrf_token %}
+                <label for="rating">Rating:</label>
+                <input type="number" name="rating" min="1" max="5" required><br>
+                <label for="comment">Comment:</label><br>
+                <textarea name="comment" required></textarea><br>
+                <input type="submit" value="Submit">
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}?next=/book_detail/{{ book.id }} ">Log in</a> to submit a review.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
