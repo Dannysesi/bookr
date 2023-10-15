@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from reviews.models import *
 from django.http import Http404
@@ -31,15 +31,16 @@ def book_detail(request, id):
     reviews = Review.objects.filter(book=book)
     return render(request, 'book_detail.html', {'book': book, 'reviews': reviews,})
 
-def submit_review(request, book_id):
+def submit_review(request, id):
     if request.method == 'POST':
-        book = get_object_or_404(Book, pk=book_id)
-        user = request.user
+        book = get_object_or_404(Book, pk=id)
+        creator = request.user  # Corrected line
         rating = request.POST.get('rating')
-        comment = request.POST.get('comment')
-        review = Review.objects.create(user=user, book=book, rating=rating, comment=comment)
-        return redirect('book_detail', book_id=book_id)
+        content = request.POST.get('comment')  # Corrected line (changed 'content' to 'comment')
+        review = Review.objects.create(creator=creator, book=book, rating=rating, content=content)
+        return redirect('book_detail', id=id)
     return HttpResponseBadRequest()
+
 
 
 def books_by_genre(request, genre_type):
