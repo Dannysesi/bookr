@@ -74,6 +74,7 @@
 <body>
     <div style="background-color: #b7e2a0ca; padding: 30px; border-radius: 20px;">
         <h3><a href="{% url 'book_list' %}">Back</a></h3>
+        <img src="{{ book.image.url }}" alt="{{ book.title }} Image">
         <h1>{{ book.title|capfirst }}</h1>
         <p>Author: {{ book.publisher.name }}</p>
         <p>Genres:
