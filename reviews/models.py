@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import auth
+from PIL import Image
 
 # Create your models here.
 class Publisher(models.Model):
@@ -14,9 +15,10 @@ class Book(models.Model):
     '''A published book'''
     title = models.CharField(max_length=70, help_text='the title of the book')
     publication_date = models.DateField(verbose_name='date the book was published')
-    isbn = models.CharField(max_length=20, verbose_name='the isbn number of the book')
+    isbn = models.CharField(max_length=20, verbose_name='the isbn number of the book', unique=True)
     publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE)
     contributors = models.ManyToManyField('Contributor', through='BookContributor')
+    image = models.ImageField(default='no_image.JPEG', upload_to='book_images', null=True, blank=True)
     def __str__(self):
         return self.title
 
