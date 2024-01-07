@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import auth
 from PIL import Image
+from django.urls import reverse
 
 # Create your models here.
 class Publisher(models.Model):
@@ -14,13 +15,17 @@ class Publisher(models.Model):
 class Book(models.Model):
     '''A published book'''
     title = models.CharField(max_length=70, help_text='the title of the book')
-    publication_date = models.DateField(verbose_name='date the book was published')
-    isbn = models.CharField(max_length=20, verbose_name='the isbn number of the book', unique=True)
-    publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE)
+    author = models.CharField(max_length=70, help_text='author of the book', null=True)
+    publication_date = models.DateField(verbose_name='date the book was published', null=True)
+    isbn = models.CharField(max_length=20, verbose_name='the isbn number of the book', unique=True, null=True)
+    publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE, null=True)
     contributors = models.ManyToManyField('Contributor', through='BookContributor')
     image = models.ImageField(default='no_image.JPEG', upload_to='book_images', null=True, blank=True)
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('book_detail', kwargs={'id': self.id})
 
 class Contributor(models.Model):
 
@@ -29,6 +34,9 @@ class Contributor(models.Model):
     email = models.EmailField(help_text='the contributors email')
     def __str__(self):
         return self.first_names
+
+    def get_absolute_url(self):
+        return reverse('book-create')
 
 class BookContributor(models.Model):
     class ContributionRole(models.TextChoices):
@@ -56,10 +64,11 @@ class Genre(models.Model):
         Comedy = 'COMEDY', 'comedy'
         Romance = 'ROMANCE', 'romance'
         Action = 'ACTION', 'action'
+        Sci_Fi = 'SCI-FI', 'sci-fi'
+        science ='SCIENCE', 'science'
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     genre = models.CharField(verbose_name='the genre of this book', choices=GenreType.choices, max_length=20)
-
 
 
 
