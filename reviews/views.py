@@ -117,11 +117,11 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
             self.get_context_data(form=form, image_form=image_form)
         )
 
-    def test_func(self):
-        book = self.get_object()
-        if self.request.user == book.author:
-            return True
-        return False
+    #def test_func(self):
+        #book = self.get_object()
+        #if self.request.user == book.author:
+            #return True
+        #return False
 
     
 
