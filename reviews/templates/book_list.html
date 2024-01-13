@@ -36,9 +36,8 @@
   </li>
   {% endfor %}
 </ul>
-{% if user.is_authenticated %}
-  <div style="padding: 20px;">
-    <a href="{% url 'book-create' %}" class="btn btn-primary">Add new book</a>
-  </div>
-{% endif %}
+<div style="padding: 20px;">
+  <a href="{% url 'book-create' %}" class="btn btn-primary">Add new book</a>
+</div>
+
 {% endblock %}

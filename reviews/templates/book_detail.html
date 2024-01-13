@@ -69,12 +69,26 @@
         text-decoration: underline;
     }
 
+    /* .center-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    }
+
+    .center-image {
+        max-width: 100%;
+        max-height: 100%;
+    } */
+
     </style>
 </head>
 <body>
     <div style="background-color: #b7e2a0ca; padding: 30px; border-radius: 20px;">
         <h3><a href="{% url 'book_list' %}">Back</a></h3>
-        <img src="{{ book.image.url }}" alt="{{ book.title }} Image">
+        <div class="center-image-container">
+            <img src="{{ book.image.url }}" alt="{{ book.title }} Image" width="500" height="500" class="center-image" style="margin-left: 100px;">
+        </div>
         <h1>{{ book.title|capfirst }}</h1>
         <p>Author: {{ book.publisher.name }}</p>
         <p>Genres:
@@ -85,6 +99,9 @@
         <p>Contributor: {{ book.contributors.get|capfirst }}</p>
         <p>Publication Date: {{ book.publication_date }}</p>
         <p>ISBN: {{ book.isbn }}</p>
+        <div>
+            <a href="{% url 'book-update' pk=book.pk %}">Update</a>
+        </div>
         <h2>Reviews:</h2>
         <ul>
             {% for review in reviews|slice:":3" %}
